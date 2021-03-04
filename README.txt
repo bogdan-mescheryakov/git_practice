@@ -1,1 +1,1 @@
-Hello Hit and GitHub
+Useful files and class templates
