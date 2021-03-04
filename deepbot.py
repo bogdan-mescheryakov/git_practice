@@ -16,6 +16,7 @@ bot.
 
 import logging
 
+from telegram.utils import request
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import (
     Updater,
@@ -126,7 +127,8 @@ def cancel(update: Update, context: CallbackContext) -> int:
 
 def main() -> None:
     # Create the Updater and pass it your bot's token.
-    updater = Updater("1692388198:AAFXO3jlycTKe3Hr0KQxmCLXehACl7lCblA")
+    REQUEST_KWARGS = {'proxy_url':'socks5://127.0.0.1:16005'}
+    updater = Updater("1692388198:AAFXO3jlycTKe3Hr0KQxmCLXehACl7lCblA", request_kwargs = REQUEST_KWARGS)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
