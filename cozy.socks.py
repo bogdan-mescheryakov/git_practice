@@ -47,7 +47,7 @@ print(goods)
 
 
 
-socks_types = []
+socks_types = [] 
 
 
 
