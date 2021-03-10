@@ -114,6 +114,17 @@ def bio(update: Update, context: CallbackContext) -> int:
 
     return ConversationHandler.END
 
+def by_the_way(update: Update, context: CallbackContext) -> int:
+    reply_keyboard = [["Yes, I do.", "No, I don't"]]
+
+    update.message.reply_text(
+        'Do you like to play games?',
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
+    )
+    
+    if 
+    logger.info("User %s replying ")
+
 
 def cancel(update: Update, context: CallbackContext) -> int:
     user = update.message.from_user
@@ -123,6 +134,8 @@ def cancel(update: Update, context: CallbackContext) -> int:
     )
 
     return ConversationHandler.END
+
+
 
 
 def main() -> None:
