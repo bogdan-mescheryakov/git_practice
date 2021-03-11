@@ -34,7 +34,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-GENDER, PHOTO, LOCATION, BIO = range(4)
+GENDER, PHOTO, LOCATION, BIO, BY_THE_WAY, OK = range(6)
 
 
 def start(update: Update, context: CallbackContext) -> int:
@@ -112,18 +112,28 @@ def bio(update: Update, context: CallbackContext) -> int:
     logger.info("Bio of %s: %s", user.first_name, update.message.text)
     update.message.reply_text('Thank you! I hope we can talk again some day.')
 
-    return ConversationHandler.END
+    return BY_THE_WAY
+
 
 def by_the_way(update: Update, context: CallbackContext) -> int:
-    reply_keyboard = [["Yes, I do.", "No, I don't"]]
-
+    reply_keyboard = [["Yes, I do", "No, I don't"]]
+    logger.info("User starting the game")
     update.message.reply_text(
         'Do you like to play games?',
-        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
+         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
     )
     
-    if 
-    logger.info("User %s replying ")
+    return OK
+
+def OK(update: Update, context: CallbackContext) -> int:
+    user = update.message.from_user
+    logger.info("Game begins for User: %s", user.first_name)
+    update.message.reply_text(
+        'I like to play games, too. Do you wanna play one with me?', reply_markup=ReplyKeyboardRemove()
+    )
+
+    return ConversationHandler.END
+
 
 
 def cancel(update: Update, context: CallbackContext) -> int:
@@ -156,7 +166,9 @@ def main() -> None:
                 MessageHandler(Filters.location, location),
                 CommandHandler('skip', skip_location),
             ],
-            BIO: [MessageHandler(Filters.text & ~Filters.command, bio)],
+            BIO: [MessageHandler(Filters.text & ~Filters.command, by_the_way)],
+            BY_THE_WAY: [MessageHandler(Filters.regex('^(Yes, I do|No, I don\'t)$'), OK)],
+            OK: [MessageHandler(Filters.text & ~Filters.command, OK )]
         },
         fallbacks=[CommandHandler('cancel', cancel)],
     )
