@@ -35,15 +35,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 GENDER, PHOTO, LOCATION, BIO, BY_THE_WAY, OK = range(6)
-
+#reply_keyboard = [["Yes", "No"],["爱", "不爱"], ["Fruit","Sweets","Cosmetics"]]
 
 def start(update: Update, context: CallbackContext) -> int:
-    reply_keyboard = [['Boy', 'Girl', 'Other']]
-
+    reply_keyboard = [["Yes", "No"]]
     update.message.reply_text(
-        'Hi! My name is Professor Bot. I will hold a conversation with you. '
-        'Send /cancel to stop talking to me.\n\n'
-        'Are you a boy or a girl?',
+        'Hi, Babe. Welcome to my Bot. I wrote it for you. '
+        '\n'
+        'Are you a good girl today?',
         reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
     )
 
@@ -160,7 +159,7 @@ def main() -> None:
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
-            GENDER: [MessageHandler(Filters.regex('^(Boy|Girl|Other)$'), gender)],
+            GENDER: [MessageHandler(Filters.regex('^(Мальчик|Девочка|Яник)$'), gender)],
             PHOTO: [MessageHandler(Filters.photo, photo), CommandHandler('skip', skip_photo)],
             LOCATION: [
                 MessageHandler(Filters.location, location),
